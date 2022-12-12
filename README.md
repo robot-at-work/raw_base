@@ -6,5 +6,5 @@ Take inspiration for your own project or use as the basis
 
 # Hardware
 We use an Intel NUC in our robots. 
-We use a display with a touchscreen, which we control and display graphics on using X11.
+We use a touchscreen, which we control and display graphics on using X11.
 We use a realsense camera for vision.
