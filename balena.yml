@@ -1,0 +1,21 @@
+name: RAW_base
+type: sw.block
+description: >-
+  Base Block for creating images that uses ROS2 on Ubuntu 22.04. Specifically made for Robot at Work's robots for construction/prefab.
+assets:
+  repository:
+    type: blob.asset
+    data:
+      url: 'https://github.com/robot-at-work/raw_base'
+  logo:
+    type: blob.asset
+    data:
+      url: >-
+        https://raw.githubusercontent.com/robot-at-work/raw_base/main/raw_logo.jpeg
+data:
+  applicationEnvironmentVariables:
+    - ROS_DOMAIN_ID: 0
+  defaultDeviceType: genericx86-64-ext
+  supportedDeviceTypes:
+    - genericx86-64-ext
+version: 0.1.0
