@@ -1,0 +1,65 @@
+FROM balenalib/%%BALENA_ARCH%%-ubuntu:jammy-build
+SHELL ["/bin/bash", "-c"]
+ARG DEBIAN_FRONTEND=noninteractive
+RUN mkdir /app
+WORKDIR /app
+
+# --------------------- APT INSTALLS ---------------------
+# General
+RUN install_packages curl \
+  gnupg \
+  lsb-release \ 
+  git \
+  gcc \
+  clang \
+  clang-tools \
+  cmake \
+  nano \
+  usbutils
+
+# XORG
+RUN install_packages xserver-xorg \
+  xserver-xorg-input-evdev \
+  xinit \
+  x11-xserver-utils \
+  dbus-x11 \
+  matchbox-keyboard \
+  xterm
+
+# ROS2
+RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(source /etc/os-release && echo $UBUNTU_CODENAME) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null
+
+RUN apt update && apt upgrade -y
+
+RUN install_packages ros-humble-ros-base
+RUN install_packages ros-humble-cv-bridge
+RUN install_packages ros-humble-image-transport 
+RUN install_packages ros-humble-diagnostic-updater 
+RUN install_packages python3-colcon-common-extensions
+
+# Realsense
+RUN install_packages libssl-dev libusb-1.0-0-dev libudev-dev pkg-config libgtk-3-dev libglfw3-dev libgl1-mesa-dev libglu1-mesa-dev
+
+# --------------------- SOURCE BUILDS ---------------------
+RUN mkdir -p /app/libraries
+WORKDIR /app/libraries
+
+RUN git clone https://github.com/IntelRealSense/librealsense.git
+WORKDIR /app/libraries/librealsense
+
+RUN mkdir build
+WORKDIR /app/libraries/librealsense/build
+RUN cmake .. -DCMAKE_BUILD_TYPE=Release
+RUN make uninstall && make clean && make -j4 && make install
+
+# --------------------- CONFIGURATIONS ---------------------
+# Disable screen from turning it off
+RUN echo "#!/bin/bash" > /etc/X11/xinit/xserverrc \
+  && echo "" >> /etc/X11/xinit/xserverrc \
+  && echo 'exec /usr/bin/X -s 0 dpms' >> /etc/X11/xinit/xserverrc 
+
+ENV UDEV=1
+
+# Avoid requesting XFCE4 question on X start
+ENV XFCE_PANEL_MIGRATE_DEFAULT=1
