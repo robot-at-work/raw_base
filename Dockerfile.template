@@ -39,6 +39,9 @@ RUN install_packages ros-humble-diagnostic-updater
 RUN install_packages ros-humble-rosbag2-storage-mcap ros-humble-rosbridge-suite ros-humble-test-msgs
 RUN install_packages python3-colcon-common-extensions
 
+# Device
+RUN install_packages libssl-dev libusb-1.0-0-dev libudev-dev pkg-config libgtk-3-dev libglfw3-dev libgl1-mesa-dev libglu1-mesa-dev
+
 # Locales
 RUN install_packages locales
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
@@ -51,6 +54,7 @@ ENV LANG en_US.UTF-8
 RUN install_packages xclip xsel
 
 # DepthAI
+RUN apt update && apt upgrade -y
 RUN wget -qO- https://docs.luxonis.com/install_dependencies.sh | bash
 RUN install_packages ros-humble-depthai-bridge ros-humble-depthai-ros-msgs
 
@@ -70,4 +74,7 @@ RUN mkdir -p /app/libraries
 WORKDIR /app/libraries
 
 # --------------------- LARGE INSTALLATIONS ------------------
+COPY requirements.txt ./
+
+RUN install_packages -y python3-pip
 RUN pip3 install --upgrade --no-cache-dir -r requirements.txt
