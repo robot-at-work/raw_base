@@ -1,3 +1,5 @@
+![Raw Logo](raw_logo.jpeg)
+
 # Base Image for Robot at Work's robots
 This repo holds the base Image for Robot at Work. We use ROS2 as the foundation, and this base image  
 Our base image is used within the Balena ecosystem, and enables us to develop robots for the construction industry.
