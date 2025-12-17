@@ -18,8 +18,7 @@ RUN install_packages curl \
   usbutils
 
 # Xorg and related packages
-RUN install_packages 
-  dbus-x11 \
+RUN install_packages dbus-x11 \
   matchbox-keyboard \
   xterm \
   xserver-xorg-core \
