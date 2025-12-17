@@ -18,13 +18,19 @@ RUN install_packages curl \
   usbutils
 
 # XORG
-RUN install_packages xserver-xorg \
+RUN install_packages xserver-xorg-core \
+  xserver-xorg-video-intel \
   xserver-xorg-input-evdev \
   xinit \
+  mesa-utils \
+  libgl1-mesa-dri \
+  libgl1-mesa-glx \
+  mesa-va-drivers \
   x11-xserver-utils \
   dbus-x11 \
   matchbox-keyboard \
-  xterm
+  xterm \
+  libva-drm2
 
 # ROS2
 RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
