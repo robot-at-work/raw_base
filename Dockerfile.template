@@ -19,6 +19,10 @@ RUN install_packages curl \
 
 # EGLFS
 RUN install_packages xinit \
+  xserver-xorg-core \
+  xserver-xorg-video-intel \
+  xserver-xorg-input-evdev \
+  xinit \
   mesa-utils \
   x11-xserver-utils \
   dbus-x11 \
