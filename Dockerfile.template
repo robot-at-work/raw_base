@@ -17,20 +17,22 @@ RUN install_packages curl \
   nano \
   usbutils
 
-# XORG
-RUN install_packages xserver-xorg-core \
-  xserver-xorg-video-intel \
-  xserver-xorg-input-evdev \
-  xinit \
+# EGLFS
+RUN install_packages xinit \
   mesa-utils \
-  libgl1-mesa-dri \
-  libgl1-mesa-glx \
-  mesa-va-drivers \
   x11-xserver-utils \
   dbus-x11 \
   matchbox-keyboard \
   xterm \
-  libva-drm2
+  libegl1-mesa-dev \
+  libgbm1 \
+  libgl1-mesa-dri \
+  libgl1-mesa-glx \
+  mesa-va-drivers \
+  libva-drm2 \
+  libdrm-intel1 \
+  xserver-xorg-core \
+  libxkbcommon0  # required for Qt EGLFS
 
 # ROS2
 RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
